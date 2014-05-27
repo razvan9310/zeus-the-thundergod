@@ -1,0 +1,9 @@
+body {
+    background-image: url("../images/background.png");
+}
+
+#zeus {
+    position: absolute;
+    left: 900px;
+    top: 800px;
+}
