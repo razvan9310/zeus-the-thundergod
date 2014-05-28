@@ -3,7 +3,28 @@ body {
 }
 
 #zeus {
-    position: absolute;
+    position: relative;
     left: 900px;
     top: 800px;
+}
+
+.creep {
+    position: absolute;
+}
+
+#gold, #cs {
+    color: yellow;
+    font-size: 46px;
+    font-family: sans-serif;
+    position: absolute;
+    text-shadow: 2px 2px #000;
+    top: 890px;
+}
+
+#gold {
+    left: 1575px;
+}
+
+#cs {
+    left: 1350px;
 }
