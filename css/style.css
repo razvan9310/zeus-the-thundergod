@@ -5,42 +5,150 @@ body {
 #zeus {
     position: relative;
     left: 900px;
-    top: 800px;
+    top: 700px;
 }
 
 .creep {
     position: absolute;
 }
 
+#stats {
+    left: 0%;
+    width: 100%;
+    height: 125px;
+    position: absolute;
+    top: 870px;
+    background-color: black;
+}
+
 #gold, #missed, #lvl, #xp, #mana {
     font-size: 46px;
     font-family: sans-serif;
-    position: absolute;
+    position: fixed;
     text-shadow: 3px 3px #000;
-    top: 890px;
+    display: inline;
 }
 
 #gold {
     color: yellow;
-    left: 1175px;
+    left: 1500px;
+    bottom: 15px;
 }
 
 #missed {
     color: red;
-    left: 1475px;
+    left: 1500px;
+    margin-top: 60px;
 }
 
 #lvl {
     color: white;
-    left: 575px;
+    left: 1100px;
+    margin-top: 60px;
 }
 
 #xp {
     color: purple;
-    left: 850px;
+    left: 1100px;
+    bottom: 15px;
 }
 
 #mana {
-    color: #2929ed;
-    left: 125px;
+    margin-left: 650px;
+    bottom: 15px;
+    color: #7c7cff;
+}
+
+.spells {
+    position: fixed;
+    width: 96px;
+    height: 96px;
+    margin-top: 15px;
+}
+
+#arc_lightning {
+    left: 25px;
+}
+
+#thundergods_wrath {
+    left: 325px;
+}
+
+#arc_cooldown, #ult_cooldown {
+    position: fixed;
+    color: gold;
+    font-size: 56px;
+    font-weight: bolder;
+    text-shadow:
+    -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+    2px 2px 0 #000;
+    visibility: hidden;
+}
+
+#arc_cooldown {
+    bottom: -27px;
+    left: 25px;
+}
+
+#arc_key {
+    position: fixed;
+    background-color: #272727;
+    color: white;
+    left: 25px;
+    height: 20px;
+    width: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    bottom: 75px;
+}
+
+#arc_mana {
+    bottom: 72px;
+    position: fixed;
+    color: #7c7cff;
+    left: 150px;
+    font-size: 18px;
+}
+
+#arc_desc {
+    position: fixed;
+    color: white;
+    left: 150px;
+    font-size: 16px;
+    bottom: 15px;
+}
+
+#ult_cooldown {
+    bottom: -27px;
+    left: 345px;
+}
+
+#ult_key {
+    position: fixed;
+    background-color: #272727;
+    color: white;
+    left: 325px;
+    height: 20px;
+    width: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    bottom: 75px;
+}
+
+#ult_mana {
+    bottom: 72px;
+    position: fixed;
+    color: #7c7cff;
+    left: 450px;
+    font-size: 18px;
+}
+
+#ult_desc {
+    position: fixed;
+    color: white;
+    left: 450px;
+    font-size: 16px;
+    bottom: 15px;
 }

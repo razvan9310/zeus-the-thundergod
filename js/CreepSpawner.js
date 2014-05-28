@@ -11,13 +11,11 @@ var CreepSpawner = function(ids, creep_image) {
         creep.css("-o-transform", "scaleX(-1)");
     }
     
-    this.spawn = function(zeus) {
-        if (zeus.ultimate.lastUsed != -1 &&
-            zeus.ultimate.lastUsed - Date.now() <= 1000) {
-
-        }
+    this.spawn = function(zeus) {        
         var imageCreator = new ImageCreator();
         var creep = imageCreator.createImage(null, "creep", _this.creep_image, "creep");
+        ++this.spawnedCreeps;
+        
         if (Math.random() >= 0.5) {
             _this.flipHorizontally(creep);
         }
@@ -26,8 +24,8 @@ var CreepSpawner = function(ids, creep_image) {
         });
         $("body").append(creep);
         
-        creep.animate({top: "885px"}, {
-            duration: 8000 - Math.min(Math.random() * 0.5 * zeus.gold, 5000),
+        creep.animate({top: "785px"}, {
+            duration: 7000 - Math.min(Math.random() * 0.5 * zeus.gold, 4000),
             step: function(now, fx) {
                 var creep_position = creep.position();
                 var zeus_position = $(_this.ids.zeus_id).position();
@@ -37,7 +35,7 @@ var CreepSpawner = function(ids, creep_image) {
                         creep_position.left >= zeus_position.left &&
                         creep_position.left <= zeus_position.left + $(_this.ids.zeus_id).width()) {
 
-                        zeus.killCreeps(false, false, creep);
+                        zeus.killCreeps(false, creep);
                         zeus.gold += 43;
                         $(zeus.ids.gold_id).text("Gold: " + zeus.gold);
                         
@@ -51,6 +49,10 @@ var CreepSpawner = function(ids, creep_image) {
                 if (creep.css("visibility") != "hidden") {
                     ++zeus.missed;
                     $(zeus.ids.missed_id).text("Missed: " + zeus.missed);
+                    
+                    if (zeus.missed == 50) {
+//                        window.location.replace("gameover.html");
+                    }
                 }
                 creep.remove();
             }
@@ -62,12 +64,11 @@ var CreepSpawner = function(ids, creep_image) {
         
         this.spawnInterval = setInterval(function() {
             if (zeus.ultimate.lastUsed != -1 &&
-                zeus.ultimate.lastUsed - Date.now() <= 1000) {
-                setTimeout(_this.spawn(zeus), 100);
-            } else {
-                _this.spawn(zeus);
+                Date.now() - zeus.ultimate.lastUsed <= 1000) {
+                return;
             }
-        }, 5000 - 0.05 * zeus.gold);
+            _this.spawn(zeus);
+        }, 5000 - Math.min(0.5 * zeus.gold, 4000));
     }
     
     this.stop = function() {

@@ -10,10 +10,10 @@ var Zeus = function(ids, images, sounds) {
         lastFailedAttempt: -1,
         failedAttemptsCount: 0
     };
-    
+        
     this.ultimate = {
         cost: 225,
-        cooldown: 15000,
+        cooldown: 30000,
         lastUsed: -1,
         lastFailedAttempt: -1,
         failedAttemptsCount: 0
@@ -45,103 +45,54 @@ var Zeus = function(ids, images, sounds) {
         setTimeout(function() {
             $(_this.ids.zeus_id).attr("src", _this.images.standing);
             $(_this.ids.zeus_id).css("top", _this.images.standing_top);                
-        }, 250);
+        }, 400);
     }
     
-    this.killCreeps = function(usedFirstSpell, usedUltimate, target) {
+    this.killCreeps = function(usedSpell, target) {
         imageCreator = new ImageCreator();
-        
-        if (usedUltimate == true) {
-            var _this = this;
-            target.each(function() {
-                if (_this.level < 25) {
-                    _this.xp += 12;
-                    var treshold = _this.treshold(_this.level);
-                    if (_this.xp >= treshold) {
-                        _this.xp -= treshold;
-                        ++_this.level;
-                        _this.mana = _this.treshold(_this.level);
-                        $(_this.ids.mana_id).text("Mana: " + _this.treshold(_this.level) + "/" + _this.treshold(_this.level));
-                        $(_this.ids.lvl_id).text("LVL: " + _this.level);
-                    }
-                    $(_this.ids.xp_id).text("XP: " + _this.xp + "/" + _this.treshold(_this.level));
-                }
-                
-                $(this).css("visibility", "hidden");
-                
-                var lightning = imageCreator.createImage(null, "lightning", _this.images.lightning, "lightning");
-                lightning.css("position", "absolute");
-                lightning.css("top", $(this).position().top - 10);
-                lightning.css("left", $(this).position().left);
-                lightning.insertAfter(this);
+        target.css("visibility", "hidden");
 
-                var coins = imageCreator.createImage(null, "coins", _this.images.coins, "coins");
-                coins.css("position", "absolute");
-                coins.css("top", $(this).position().top);
-                coins.css("left", $(this).position().left);
-                coins.insertAfter(this);
+        if (this.level < 25) {
+            this.xp += 12;
+            var treshold = this.treshold(this.level);
+            if (this.xp >= treshold) {
+                this.xp -= treshold;
+                ++this.level;
+                this.mana = this.treshold(this.level);
+                $(this.ids.lvl_id).text("Level: " + this.level);
+                $(this.ids.mana_id).text("Mana: " + this.treshold(this.level) + "/" + this.treshold(this.level));
+            }
+            $(this.ids.xp_id).text("XP: " + this.xp + "/" + this.treshold(this.level));
+        }
 
-                $.playSound(_this.sounds.coins);
-
-                coins_new_top = $(this).position().top - 150;
-                coins.animate({top: coins_new_top + "px"}, {
-                    duration: 2000,
-                    queue: false,
-                    complete: function() {
-                        coins.remove();    
-                    }
-                });
-            });
+        if (usedSpell == true) {        
+            var lightning = imageCreator.createImage(null, "lightning", this.images.lightning, "lightning");
+            lightning.css("position", "absolute");
+            lightning.css("top", target.position().top - 10);
+            lightning.css("left", target.position().left);
+            lightning.insertAfter(target);
 
             setTimeout(function() {
                 $(".lightning").remove();
             }, 175);
-        } 
-        else {
-            target.css("visibility", "hidden");
-            
-            if (this.level < 25) {
-                this.xp += 12;
-                var treshold = this.treshold(this.level);
-                if (this.xp >= treshold) {
-                    this.xp -= treshold;
-                    ++this.level;
-                    this.mana = this.treshold(this.level);
-                    $(this.ids.lvl_id).text("LVL: " + this.level);
-                    $(this.ids.mana_id).text("Mana: " + this.treshold(this.level) + "/" + this.treshold(this.level));
-                }
-                $(this.ids.xp_id).text("XP: " + this.xp + "/" + this.treshold(this.level));
-            }
-            
-            if (usedFirstSpell == true) {        
-                var lightning = imageCreator.createImage(null, "lightning", this.images.lightning, "lightning");
-                lightning.css("position", "absolute");
-                lightning.css("top", target.position().top - 10);
-                lightning.css("left", target.position().left);
-                lightning.insertAfter(target);
-                
-                setTimeout(function() {
-                    $(".lightning").remove();
-                }, 175);
-            }
-            
-            var coins = imageCreator.createImage(null, "coins", this.images.coins, "coins");
-            coins.css("position", "absolute");
-            coins.css("top", target.position().top);
-            coins.css("left", target.position().left);
-            coins.insertAfter(target);
-
-            $.playSound(this.sounds.coins);
-
-            coins_new_top = target.position().top - 150;
-            coins.animate({top: coins_new_top + "px"}, {
-                duration: 2000,
-                queue: false,
-                complete: function() {
-                    coins.remove();    
-                }
-            });
         }
+
+        var coins = imageCreator.createImage(null, "coins", this.images.coins, "coins");
+        coins.css("position", "absolute");
+        coins.css("top", target.position().top);
+        coins.css("left", target.position().left);
+        coins.insertAfter(target);
+
+        $.playSound(this.sounds.coins);
+
+        coins_new_top = target.position().top - 150;
+        coins.animate({top: coins_new_top + "px"}, {
+            duration: 2000,
+            queue: false,
+            complete: function() {
+                coins.remove();    
+            }
+        });
     }
     
     this.compareCreepHeights = function(creep1, creep2) {
@@ -196,13 +147,25 @@ var Zeus = function(ids, images, sounds) {
                             _this.mana -= _this.ultimate.cost;
                             $(_this.ids.mana_id).text("Mana: " + _this.mana + "/" + _this.treshold(_this.level));
                             _this.ultimate.lastUsed = Date.now();
+                            
+                            $(_this.ids.thunder_cd).text("30");
+                            $(_this.ids.thunder_cd).css("visibility", "visible");
+                            var cooldown = setInterval(function() {
+                                $(_this.ids.thunder_cd).text(((_this.ultimate.lastUsed + _this.ultimate.cooldown - Date.now()) / 1000).toFixed(0));         
+                            }, 100);
+                            setTimeout(function() {
+                                clearInterval(cooldown);
+                                $(_this.ids.thunder_cd).css("visibility", "hidden")
+                            }, 30000);
 
                             _this.thundergodsWrath();
                             var creeps = $(".creep");
-                            _this.killCreeps(false, true, creeps);
-                            _this.gold += 43 * creeps.length;
-                            $(_this.ids.gold_id).text("Gold: " + _this.gold);
-                            creeps.remove();
+                            for (var i = 0; i < creeps.length; ++i) {
+                                _this.killCreeps(true, $(creeps[i]));
+                                _this.gold += 43;
+                                $(_this.ids.gold_id).text("Gold: " + _this.gold);
+                                $(creeps[i]).remove(); 
+                            } 
                         } else { // no cooldown, but not enough mana
                             
                         }
@@ -219,12 +182,22 @@ var Zeus = function(ids, images, sounds) {
                         _this.mana -= _this.firstSpell.cost;
                         $(_this.ids.mana_id).text("Mana: " + _this.mana + "/" + _this.treshold(_this.level));
                         _this.firstSpell.lastUsed = Date.now();
+                        
+                        $(_this.ids.arc_cd).text("1.50");
+                        $(_this.ids.arc_cd).css("visibility", "visible");
+                        var cooldown = setInterval(function() {
+                            $(_this.ids.arc_cd).text(((_this.firstSpell.lastUsed + _this.firstSpell.cooldown - Date.now()) / 1000).toFixed(2));         
+                        }, 100);
+                        setTimeout(function() {
+                            clearInterval(cooldown);
+                            $(_this.ids.arc_cd).css("visibility", "hidden")
+                        }, 1500);
 
                         var creeps = $(".creep");
                         creeps.sort(_this.compareCreepHeights);
 
                         for (var i = 0; i < Math.min(3, creeps.length); ++i) {
-                            _this.killCreeps(true, false, $(creeps[i]));
+                            _this.killCreeps(true, $(creeps[i]));
                             _this.gold += 43;
                             $(_this.ids.gold_id).text("Gold: " + _this.gold);
                             $(creeps[i]).remove(); 
