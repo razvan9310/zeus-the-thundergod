@@ -12,19 +12,35 @@ body {
     position: absolute;
 }
 
-#gold, #cs {
-    color: yellow;
+#gold, #missed, #lvl, #xp, #mana {
     font-size: 46px;
     font-family: sans-serif;
     position: absolute;
-    text-shadow: 2px 2px #000;
+    text-shadow: 3px 3px #000;
     top: 890px;
 }
 
 #gold {
-    left: 1575px;
+    color: yellow;
+    left: 1175px;
 }
 
-#cs {
-    left: 1350px;
+#missed {
+    color: red;
+    left: 1475px;
+}
+
+#lvl {
+    color: white;
+    left: 575px;
+}
+
+#xp {
+    color: purple;
+    left: 850px;
+}
+
+#mana {
+    color: #2929ed;
+    left: 125px;
 }
