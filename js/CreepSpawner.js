@@ -51,7 +51,18 @@ var CreepSpawner = function(ids, creep_image) {
                     $(zeus.ids.missed_id).text("Missed: " + zeus.missed);
                     
                     if (zeus.missed == 50) {
-//                        window.location.replace("gameover.html");
+                        $.playSound("sounds/death");
+                        var final_gold = zeus.gold;
+                       
+                        setTimeout(function() {
+                            window.location.replace("gameover.html");
+                        }, 5000);
+                        
+                        var stats = JSON.stringify({
+                            level: zeus.level,
+                            gold: zeus.gold
+                        });
+                        localStorage.setItem("stats", stats);
                     }
                 }
                 creep.remove();

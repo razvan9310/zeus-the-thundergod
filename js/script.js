@@ -1,4 +1,6 @@
 $(document).ready(function() {    
+    $.playSound("sounds/battle_begins_long");
+    
     var zeus = new Zeus({
         zeus_id: "#zeus",
         gold_id: "#gold",
