@@ -30,41 +30,43 @@ $(document).ready(function() {
     zeus.enableKeyboard();
     zeus.regenerate();
     
-    creepSpawner1 = null;
-    creepSpawner2 = null;
-    creepSpawner3 = null;
-    creepSpawner4 = null;
-    var period = 0;
-    
-    setInterval(function() {
-        setTimeout(function() {
-            creepSpawner1 = new CreepSpawner({
+    creepSpawner1 = new CreepSpawner({
                 zeus_id: "#zeus",
                 gold_id: "#gold",
                 missed_id: "#missed"
             }, "images/creep.png");
+    creepSpawner2 = new CreepSpawner({
+                zeus_id: "#zeus",
+                gold_id: "#gold",
+                missed_id: "#missed"
+            }, "images/creep.png");
+    creepSpawner3 = new CreepSpawner({
+                zeus_id: "#zeus",
+                gold_id: "#gold",
+                missed_id: "#missed"
+            }, "images/creep.png");
+    creepSpawner4 = new CreepSpawner({
+                zeus_id: "#zeus",
+                gold_id: "#gold",
+                missed_id: "#missed"
+            }, "images/creep.png");
+    
+    var period = 0;
+    
+    setInterval(function() {
+        setTimeout(function() {
             creepSpawner1.startSpawn(zeus);
             if (period) {
                 creepSpawner2.stop();
             }
 
             setTimeout(function() {
-                creepSpawner2 = new CreepSpawner({
-                    zeus_id: "#zeus",
-                    gold_id: "#gold",
-                    missed_id: "#missed"
-                }, "images/creep.png");
                 creepSpawner2.startSpawn(zeus);
                 if (period) {
                     creepSpawner3.stop();
                 }
 
                 setTimeout(function() {
-                    creepSpawner3 = new CreepSpawner({
-                        zeus_id: "#zeus",
-                        gold_id: "#gold",
-                        missed_id: "#missed"
-                    }, "images/creep.png");
                     creepSpawner3.startSpawn(zeus);
                     if (period) {
                         creepSpawner4.stop();
@@ -72,11 +74,6 @@ $(document).ready(function() {
                     
                     setTimeout(function() {
                         period = 1;
-                        creepSpawner4 = new CreepSpawner({
-                            zeus_id: "#zeus",
-                            gold_id: "#gold",
-                            missed_id: "#missed"
-                        }, "images/creep.png");
                         creepSpawner4.startSpawn(zeus);
                         if (period) {
                             creepSpawner1.stop();
